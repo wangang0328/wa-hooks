@@ -2,35 +2,31 @@
   "name": "@wa-dev/hooks",
   "version": "0.0.1",
   "description": "react hooks library",
-  "module": "dist/index.js",
-  "types": "dist/types.d.ts",
   "homepage": "https://github.com/wangang0328/wa-hooks",
   "repository": "https://github.com/wangang0328/wa-hooks",
-  "scripts": {
-    "start": "npm run dev",
-    "dev": "dumi dev",
-    "build": "father build",
-    "build:watch": "father dev",
-    "docs:build": "dumi build",
-    "prepare": "husky install && dumi setup",
-    "doctor": "father doctor",
-    "lint": "npm run lint:es && npm run lint:css",
-    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
-    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
-    "prepublishOnly": "father doctor && npm run build",
-    "test": "jest",
-    "publish": "npm run build && publish"
-  },
-  "authors": {
-    "name": "wa",
-    "email": "aha_wangang@foxmail.com"
-  },
   "license": "MIT",
+  "module": "dist/index.js",
+  "types": "dist/types.d.ts",
   "files": [
     "dist",
     "package.json",
     "READEME.md"
   ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
+    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "prepare": "husky install && dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "publish": "npm run build && publish --tag beta",
+    "start": "npm run dev",
+    "test": "jest"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -52,14 +48,6 @@
       "eslint --fix",
       "prettier --parser=typescript --write"
     ]
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": " https://registry.npmjs.org"
-  },
-  "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -84,5 +72,17 @@
     "react-dom": "17.0.2",
     "stylelint": "^14.9.1",
     "ts-jest": "^29.0.3"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": " https://registry.npmjs.org"
+  },
+  "authors": {
+    "name": "wa",
+    "email": "aha_wangang@foxmail.com"
   }
 }
