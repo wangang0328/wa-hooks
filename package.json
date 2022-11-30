@@ -5,6 +5,7 @@
   "homepage": "https://github.com/wangang0328/wa-hooks",
   "repository": "https://github.com/wangang0328/wa-hooks",
   "license": "MIT",
+  "sideEffects": false,
   "module": "dist/index.js",
   "types": "dist/types.d.ts",
   "files": [
@@ -76,6 +77,9 @@
   "peerDependencies": {
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "publishConfig": {
     "access": "public",
