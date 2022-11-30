@@ -4,7 +4,8 @@
   "description": "react hooks library",
   "module": "dist/index.js",
   "types": "dist/types.d.ts",
-  "homepage": "",
+  "homepage": "https://github.com/wangang0328/wa-hooks",
+  "repository": "https://github.com/wangang0328/wa-hooks",
   "scripts": {
     "start": "npm run dev",
     "dev": "dumi dev",
@@ -17,7 +18,8 @@
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepublishOnly": "father doctor && npm run build",
-    "test": "jest"
+    "test": "jest",
+    "publish": "npm run build && publish"
   },
   "authors": {
     "name": "wa",
