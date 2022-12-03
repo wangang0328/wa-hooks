@@ -1,17 +1,19 @@
 {
   "name": "@wa-dev/hooks",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha-2",
   "description": "react hooks library",
   "homepage": "https://github.com/wangang0328/wa-hooks",
   "repository": "https://github.com/wangang0328/wa-hooks",
   "license": "MIT",
   "sideEffects": false,
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/types.d.ts",
   "files": [
     "dist",
     "package.json",
-    "READEME.md"
+    "README.md",
+    ".npmrc"
   ],
   "scripts": {
     "build": "father build",
@@ -24,7 +26,7 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "publish": "npm run build && publish --tag beta",
+    "pub": "npm run build && npm publish --tag beta",
     "start": "npm run dev",
     "test": "jest"
   },

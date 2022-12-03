@@ -1,8 +1,6 @@
 ---
-title: useMount
 nav:
   title: hooks
-  path: /hooks
 group:
   title: 生命周期
   order: 1
@@ -16,7 +14,7 @@ group:
 
 ### 基础用法
 
-<code src="./demo/demo1.tsx"></code>
+<code src="./demo1.tsx"></code>
 
 ## API
 
