@@ -24,6 +24,7 @@ function useFetchImplement<TData, TParams extends any[], TFormatData = TData>(
   const instance = useCreate(() => {
     // @ts-ignore do nothing
     const initialState = plugins
+      // @ts-ignore
       .map((pluginFn) => pluginFn.onInit?.(options))
       .filter(Boolean)
     return new Fetch<TData, TParams, TFormatData>(
