@@ -1,3 +1,7 @@
+export { default as useCreate } from './useCreate'
+export { default as useFetch } from './useFetch'
+export { default as useLatest } from './useLatest'
+export { default as useMemoFn } from './useMemoFn'
 export { default as useMount } from './useMount'
 export { default as useUnmount } from './useUnmount'
-export { default as useLatest } from './useLatest'
+export { default as useUpdate } from './useUpdate'

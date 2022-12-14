@@ -17,7 +17,7 @@ group:
 
 <code src="./demo2.tsx"></code>
 
-## API
+### API
 
 ```typescript
 const vRef = useLatest<T>(v: T): React.MutableRefObject<T>
