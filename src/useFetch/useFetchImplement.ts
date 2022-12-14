@@ -22,7 +22,7 @@ function useFetchImplement<TData, TParams extends any[], TFormatData = TData>(
   const update = useUpdate()
   const serviceRef = useLatest(service)
   const instance = useCreate(() => {
-    // @ts-ignore
+    // @ts-ignore do nothing
     const initialState = plugins
       .map((pluginFn) => pluginFn.onInit?.(options))
       .filter(Boolean)
