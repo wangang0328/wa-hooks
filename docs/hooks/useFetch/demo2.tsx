@@ -32,11 +32,12 @@ const ManualFetchTest = () => {
     any[],
     LoginInfo
   >(fetchLoginInfo, {
-    manual: true,
+    manual: false,
     formatData: (data) => data,
     onError: (err) => {
       console.log('错误监听：', err.message)
     },
+    defaultParams: [1, 2, 3],
   })
 
   const ResultData = () => {

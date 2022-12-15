@@ -22,7 +22,6 @@ function useFetchImplement<TData, TParams extends any[], TFormatData = TData>(
   const update = useUpdate()
   const serviceRef = useLatest(service)
   const instance = useCreate(() => {
-    // @ts-ignore do nothing
     const initialState = plugins
       // @ts-ignore
       .map((pluginFn) => pluginFn.onInit?.(options))
@@ -42,8 +41,9 @@ function useFetchImplement<TData, TParams extends any[], TFormatData = TData>(
 
   useMount(() => {
     if (!options.manual) {
+      const p = instance.state.params || options.defaultParams || []
       // @ts-ignore
-      instance.run(instance.state.params || options.defaultParams || [])
+      instance.run(...p)
     }
   })
 

@@ -101,11 +101,14 @@ export default class Fetch<
       if (curFlagCount !== this.flagOfCount) {
         return {}
       }
-      const a = this.options.formatData?.(resData) || resData
+      const targetData =
+        'formatData' in this.options
+          ? this.options.formatData?.(resData)
+          : resData
       this.setState({
         loading: false,
         error: undefined,
-        data: a,
+        data: targetData,
       })
 
       this.options.onSuccess?.(this.state.data!, this.state.params)
@@ -130,6 +133,7 @@ export default class Fetch<
               loading: false,
               error,
             }
+      // @ts-ignore
       this.setState(targetState)
 
       this.notifyPluginsEvent('onError', error, this.state.params)

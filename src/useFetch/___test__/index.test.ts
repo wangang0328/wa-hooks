@@ -1,5 +1,11 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import {
+  act,
+  Renderer,
+  renderHook,
+  RenderHookResult,
+} from '@testing-library/react-hooks'
 import useFetch from '../index'
+import { BaseResult } from '../types'
 
 const mockRequest = (seq: number) => {
   return new Promise((resolve, reject) => {
@@ -25,6 +31,11 @@ describe('useFetch', () => {
   const setUp = (service: any, options: any) =>
     renderHook((o) => useFetch(service, o || options))
 
+  let hook: RenderHookResult<
+    unknown,
+    BaseResult<unknown, any[]>,
+    Renderer<unknown>
+  >
   it('test useFetch auto run', async () => {
     let success, process
     const successCb = (v: any) => {
@@ -38,7 +49,7 @@ describe('useFetch', () => {
       process = 'finally'
     }
 
-    let hook = setUp(mockRequest, {
+    hook = setUp(mockRequest, {
       onSuccess: successCb,
       onError: errorCb,
       onFinally: finallyCb,
@@ -115,13 +126,104 @@ describe('useFetch', () => {
     hook.unmount()
   })
 
-  it('test manual trigger', () => {})
+  it('test manual trigger', async () => {
+    act(() => {
+      hook = setUp(mockRequest, {
+        manual: true,
+      })
+    })
+    expect(hook.result.current.loading).toBe(false)
 
-  it('test defaultParams', () => {})
+    act(() => {
+      hook.result.current.run(1)
+    })
+    expect(hook.result.current.loading).toBe(true)
 
-  it('test errSetData', () => {})
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
-  it('test defaultData', () => {})
+    await hook.waitForNextUpdate()
+    expect(hook.result.current.loading).toBe(false)
+    expect(hook.result.current.error).toBeUndefined()
+    expect(hook.result.current.data).toBe('mock success')
 
-  it('test formatData', () => {})
+    act(() => {
+      hook.result.current.run(0)
+    })
+    expect(hook.result.current.loading).toBe(true)
+
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    await hook.waitForNextUpdate()
+    expect(hook.result.current.loading).toBe(false)
+    expect(hook.result.current.error).toEqual(new Error('mock fail'))
+    expect(hook.result.current.data).toBe('mock success')
+    hook.unmount()
+  })
+
+  it('test defaultParams', async () => {
+    act(() => {
+      hook = setUp(mockRequest, {
+        defaultParams: ['a', 1, 2],
+      })
+    })
+    expect(hook.result.current.params).toEqual(['a', 1, 2])
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
+    await hook.waitForNextUpdate()
+    expect(hook.result.current.params).toEqual(['a', 1, 2])
+    hook.unmount()
+  })
+
+  it('test errSetData', async () => {
+    act(() => {
+      hook = setUp(mockRequest, {
+        defaultParams: [0],
+        errSetData: 'error data',
+      })
+    })
+    expect(hook.result.current.params).toEqual([0])
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
+    await hook.waitForNextUpdate()
+    expect(hook.result.current.data).toEqual('error data')
+    hook.unmount()
+  })
+
+  it('test defaultData', async () => {
+    act(() => {
+      hook = setUp(mockRequest, {
+        defaultParams: [1],
+        defaultData: 'default data',
+      })
+    })
+    expect(hook.result.current.data).toEqual('default data')
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
+    await hook.waitForNextUpdate()
+    expect(hook.result.current.data).toEqual('mock success')
+    hook.unmount()
+  })
+
+  it('test formatData', async () => {
+    act(() => {
+      hook = setUp(mockRequest, {
+        defaultParams: [1],
+        formatData: () => 'format data',
+      })
+    })
+    expect(hook.result.current.data).toBeUndefined()
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
+    await hook.waitForNextUpdate()
+    expect(hook.result.current.data).toEqual('format data')
+    hook.unmount()
+  })
 })

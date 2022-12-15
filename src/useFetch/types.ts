@@ -47,7 +47,7 @@ export interface OptionsWithoutFormat<TData, TParams extends any[]>
   /**
    *  报错时候设置的data
    */
-  errSetData?: TData
+  errSetData?: TData | null | undefined
   onSuccess?: (d: TData, p?: TParams) => void
   onFinally?: (p?: TParams, d?: TData, e?: Error) => void
 }
@@ -62,7 +62,7 @@ export interface OptionsWithFormat<TData, TParams extends any[], TFormatedData>
   /**
    *  报错时候设置的data
    */
-  errSetData?: TFormatedData
+  errSetData?: TFormatedData | null | undefined
   onSuccess?: (d: TFormatedData, p?: TParams) => void
   onFinally?: (p?: TParams, d?: TFormatedData, e?: Error) => void
   /**
