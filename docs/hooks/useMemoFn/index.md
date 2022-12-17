@@ -10,7 +10,7 @@ group:
 我们在使用 hooks 时存在着**闭包陷阱**
 如下代码
 
-```jsx
+```js
 function Chat() {
   const [text, setText] = useState('')
 
@@ -26,7 +26,7 @@ function Chat() {
 
 如果 onClick 函数不用 useCallback 包裹，或者依赖 text，如下代码
 
-```jsx
+```js
 function Chat() {
   const [text, setText] = useState('')
 
