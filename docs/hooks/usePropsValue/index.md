@@ -2,7 +2,7 @@
 nav:
   title: hooks
 group:
-  title: State
+  title: state
 ---
 
 # usePropsValue

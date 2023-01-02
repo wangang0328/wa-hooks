@@ -22,14 +22,17 @@ export type SetValue<T> = (
 function usePropsValue<T = any>(props: {
   onChange?: (v: T) => void
 }): [v: T | undefined, setValue: SetValue<T>]
+
 function usePropsValue<T = any>(props: {
   value: T
   onChange?: (v: T) => void
 }): [v: T, setValue: SetValue<T>]
+
 function usePropsValue<T = any>(props: {
   defaultValue: T
   onChange?: (v: T) => void
 }): [v: T, setValue: SetValue<T>]
+
 function usePropsValue<T = any>(props: {
   value: T
   defaultValue: T

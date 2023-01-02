@@ -1,5 +1,6 @@
+/* eslint-disable no-self-compare */
 import { isFunction, isNil } from './validate'
-// eslint-disable-next-line no-self-compare
+
 const is = (x: any, y: any) =>
   (x === y && (x !== 0 || 1 / x === 1 / y)) || (x !== x && y !== y)
 
