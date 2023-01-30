@@ -5,6 +5,9 @@ import { isString } from './validate'
  * @param keys
  */
 export const exclude = (o: Record<string, any>, keys: string | string[]) => {
+  if (!o) {
+    return o
+  }
   const target: typeof o = {}
   const excludeKeys = isString(keys) ? [keys] : keys
   for (const key in o) {

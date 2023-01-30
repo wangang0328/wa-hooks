@@ -37,7 +37,6 @@ describe('useCookieState', () => {
       hook.result.current.setState('hello')
     })
     expect(hook.result.current.state).toBe('hello')
-    console.log('11111111')
     act(() => {
       jest.advanceTimersByTime(2000)
     })

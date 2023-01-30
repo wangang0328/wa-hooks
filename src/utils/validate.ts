@@ -20,3 +20,6 @@ export const isNil = (v: unknown): v is undefined | null =>
 export const isDev = ['development', 'test'].includes(
   process?.env?.NODE_ENV || '',
 )
+
+export const isBrowser =
+  typeof window !== 'undefined' && typeof document !== 'undefined'

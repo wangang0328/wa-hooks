@@ -3,6 +3,7 @@ nav:
   title: hooks
 group:
   title: state
+  order: 98
 ---
 
 # useLocalStorage
