@@ -1,24 +1,22 @@
+/* eslint-disable @typescript-eslint/no-parameter-properties */
 import type { MutableRefObject } from 'react'
 import type {
   FetchState,
   ForceUpdate,
+  Options,
   OptionsWithFormat,
   PluginReturn,
   Service,
 } from './types'
 
-export default class Fetch<
-  TData,
-  TParams extends any[],
-  TFormatedData = TData,
-> {
+export default class Fetch<TData, TParams extends any[], TOriginData = any> {
   // plugns的返回值
-  pluginImpls: PluginReturn<TFormatedData, TParams>[] = []
+  pluginImpls: PluginReturn<TData, TParams>[] = []
 
   // 标识，可以通过该值控制显示最后一次请求，取消请求
   flagOfCount = 0
 
-  state: FetchState<TFormatedData, TParams> = {
+  state: FetchState<TData, TParams> = {
     loading: false,
     data: undefined,
     error: undefined,
@@ -26,19 +24,18 @@ export default class Fetch<
   }
 
   constructor(
-    public serviceRef: MutableRefObject<Service<TFormatedData, TParams>>,
-    public options: OptionsWithFormat<TData, TParams, TFormatedData>,
+    public serviceRef: MutableRefObject<Service<TData, TParams>>,
+    public options:
+      | Options<TData, TParams>
+      | OptionsWithFormat<TData, TParams, TOriginData>,
     public update: ForceUpdate,
-    public initialState: FetchState<TFormatedData, TParams>,
+    public initialState: FetchState<TData, TParams>,
   ) {
     const defaultData = this.options.defaultData
     this.setState({ ...initialState, data: defaultData }, false)
   }
 
-  setState(
-    s: Partial<FetchState<TFormatedData, TParams>> = {},
-    isForceUpdate = true,
-  ) {
+  setState(s: Partial<FetchState<TData, TParams>> = {}, isForceUpdate = true) {
     this.state = {
       ...this.state,
       ...s,
@@ -48,10 +45,10 @@ export default class Fetch<
     }
   }
 
-  notifyPluginsEvent(
-    eventName: keyof PluginReturn<TFormatedData, TParams>,
-    ...rest: any[]
-  ) {
+  notifyPluginsEvent<
+    K extends keyof PluginReturn<TData, TParams>,
+    P extends Required<PluginReturn<TData, TParams>>,
+  >(eventName: K, ...rest: Parameters<P[K]>) {
     const result = this.pluginImpls
       .map((pluginImpl) => {
         // 保证某个plugin报错，别的plugin可以正常进行
@@ -65,10 +62,13 @@ export default class Fetch<
       })
       .filter(Boolean)
     // Object.assign({}, ...[{ name: 1 }, { name: 2 }, { age: 3 }]) => {name: 2, age: 3}
-    return Object.assign({}, ...result)
+    return Object.assign({}, ...result) as Exclude<
+      ReturnType<P[K]>,
+      undefined | void
+    >
   }
 
-  private async _fetch(...params: TParams) {
+  async runAsync(...params: TParams) {
     ++this.flagOfCount
     const curFlagCount = this.flagOfCount
     // plugin before
@@ -87,24 +87,27 @@ export default class Fetch<
     this.options.onBefore?.(this.state.params)
 
     // 替换service
-    const { servicePromise } = this.notifyPluginsEvent(
+    let { servicePromise } = this.notifyPluginsEvent(
       'onFetch',
       this.serviceRef.current,
       params,
     )
-
+    if (!servicePromise) {
+      servicePromise = this.serviceRef.current(...params)
+    }
     try {
-      const resData = await (servicePromise || this.serviceRef.current)(
-        ...params,
-      )
+      const resData = (await servicePromise) as any
       // 取消了请求或者不是最后一次请求的结果
       if (curFlagCount !== this.flagOfCount) {
         return {}
       }
-      const targetData =
-        'formatData' in this.options
-          ? this.options.formatData?.(resData)
-          : resData
+
+      const targetData = this.options.hasOwnProperty('formatData')
+        ? (
+            this.options as OptionsWithFormat<TData, TParams, TOriginData>
+          ).formatData(resData)
+        : resData
+
       this.setState({
         loading: false,
         error: undefined,
@@ -112,7 +115,7 @@ export default class Fetch<
       })
 
       this.options.onSuccess?.(this.state.data!, this.state.params)
-      this.notifyPluginsEvent('onSuccess', this.state.data, this.state.params)
+      this.notifyPluginsEvent('onSuccess', this.state.data!, this.state.params)
 
       this.options.onFinally?.(this.state.params, this.state.data, undefined)
       this.notifyPluginsEvent(
@@ -122,18 +125,17 @@ export default class Fetch<
         undefined,
       )
     } catch (error: any) {
-      const targetState =
-        'errSetData' in this.options
-          ? {
-              loading: false,
-              error,
-              data: this.options.errSetData,
-            }
-          : {
-              loading: false,
-              error,
-            }
-      // @ts-ignore
+      const targetState = this.options.hasOwnProperty('errSetData')
+        ? {
+            loading: false,
+            error,
+            data: this.options.errSetData,
+          }
+        : {
+            loading: false,
+            error,
+          }
+
       this.setState(targetState)
 
       this.notifyPluginsEvent('onError', error, this.state.params)
@@ -149,14 +151,14 @@ export default class Fetch<
    */
   reFetch() {
     // @ts-ignore
-    this._fetch(...(this.state.params || []))
+    this.runAsync(...(this.state.params || []))
   }
 
   /**
    * 手动触发执行请求
    */
   run(...params: TParams) {
-    this._fetch(...params)
+    this.runAsync(...params)
   }
 
   /**

@@ -8,6 +8,11 @@ interface LoginInfo {
   name: string
   age: number
 }
+interface OriginLoginInfo {
+  flag: boolean
+  name: string
+  age2: number
+}
 
 const fetchLoginInfo = () =>
   new Promise<LoginInfo>((resolve, reject) => {
@@ -30,10 +35,14 @@ const ManualFetchTest = () => {
   const { loading, error, data, run, params } = useFetch<
     LoginInfo,
     any[],
-    LoginInfo
+    OriginLoginInfo
   >(fetchLoginInfo, {
     manual: false,
-    formatData: (data) => data,
+    formatData: (data) => ({
+      age: data.age2,
+      name: data.name,
+      flag: data.flag,
+    }),
     onError: (err) => {
       console.log('错误监听：', err.message)
     },

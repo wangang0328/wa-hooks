@@ -1,36 +1,40 @@
+import useDebouncePlugin from './plugins/useDebouncePlugin'
+import usePollingPlugin from './plugins/usePollingPlugin'
+import useRetryPlugin from './plugins/useRetryPlugin'
 import type {
-  BaseResult,
+  Options,
   OptionsWithFormat,
-  OptionsWithoutFormat,
   PluginFn,
+  Result,
   Service,
 } from './types'
 import useFetchImplement from './useFetchImplement'
 
-function useFetch<TData, TParams extends any[], TFormatData>(
+function useFetch<TData, TParams extends any[], TOriginData>(
   service: Service<TData, TParams>,
-  Options?: OptionsWithFormat<TData, TParams, TFormatData>,
-  plugins?: PluginFn<TFormatData, TParams>[],
-): BaseResult<TFormatData, TParams>
+  Options?: OptionsWithFormat<TData, TParams, TOriginData>,
+  plugins?: PluginFn<TData, TParams>[],
+): Result<TData, TParams>
 
 function useFetch<TData = any, TParams extends any[] = any>(
   service: Service<TData, TParams>,
-  Options?: OptionsWithoutFormat<TData, TParams>,
+  Options?: Options<TData, TParams>,
   plugins?: PluginFn<TData, TParams>[],
-): BaseResult<TData, TParams>
+): Result<TData, TParams>
 
-function useFetch<TData = any, TParams extends any[] = [], TFormatData = any>(
+function useFetch<TData = any, TParams extends any[] = [], TOriginData = any>(
   service: Service<TData, TParams>,
   options?:
-    | OptionsWithoutFormat<TData, TParams>
-    | OptionsWithFormat<TData, TParams, TFormatData>,
-  plugins?: PluginFn<TData, TParams>[] | PluginFn<TFormatData, TParams>[],
+    | Options<TData, TParams>
+    | OptionsWithFormat<TData, TParams, TOriginData>,
+  plugins: PluginFn<TData, TParams>[] = [],
 ) {
-  return useFetchImplement<TData, TParams, TFormatData>(
-    service,
-    options,
-    plugins,
-  )
+  return useFetchImplement<TData, TParams, TOriginData>(service, options, [
+    ...plugins,
+    useDebouncePlugin,
+    useRetryPlugin,
+    usePollingPlugin,
+  ])
 }
 
 export default useFetch

@@ -23,3 +23,13 @@ export const isDev = ['development', 'test'].includes(
 
 export const isBrowser =
   typeof window !== 'undefined' && typeof document !== 'undefined'
+
+/**
+ * 当前页面是否可见
+ */
+export const documentIsVisible = () => {
+  if (isBrowser) {
+    return document.visibilityState === 'visible'
+  }
+  return true
+}
