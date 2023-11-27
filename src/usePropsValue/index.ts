@@ -40,7 +40,8 @@ function usePropsValue<T = any>(props: {
 }): [v: T, setValue: SetValue<T>]
 
 function usePropsValue<T = any>(props: UsePropsValueProp<T>) {
-  const areHaveValueProp = () => 'value' in props
+  const areHaveValueProp = () =>
+    Object.prototype.hasOwnProperty.call(props, 'value')
   const update = useUpdate()
   const valueRef = useRef<T | undefined>(
     areHaveValueProp() ? props.value : props.defaultValue,

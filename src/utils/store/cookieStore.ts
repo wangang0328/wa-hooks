@@ -1,6 +1,5 @@
 import { exclude } from '../index'
-import { isNil } from '../validate'
-import { isDev, isUndefined } from './../validate'
+import { isDev, isNil, isUndefined } from '../validate'
 import type { BaseOptions } from './baseStore'
 import BaseStore, { formatExpires } from './baseStore'
 
