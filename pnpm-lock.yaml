@@ -7,6 +7,7 @@ specifiers:
   '@testing-library/react-hooks': ^8.0.1
   '@types/jest': ^29.2.3
   '@types/mockjs': ^1.0.7
+  '@types/spark-md5': ^3.0.2
   '@umijs/lint': ^4.0.0
   antd: ^5.0.2
   babel-plugin-import: ^1.13.5
@@ -23,8 +24,12 @@ specifiers:
   prettier-plugin-packagejson: ^2.2.18
   react: 17.0.2
   react-dom: 17.0.2
+  spark-md5: ^3.0.2
   stylelint: ^14.9.1
   ts-jest: ^29.0.3
+
+dependencies:
+  spark-md5: registry.npmmirror.com/spark-md5/3.0.2
 
 devDependencies:
   '@commitlint/cli': registry.npmmirror.com/@commitlint/cli/17.3.0
@@ -33,6 +38,7 @@ devDependencies:
   '@testing-library/react-hooks': registry.npmmirror.com/@testing-library/react-hooks/8.0.1_react-dom@17.0.2+react@17.0.2
   '@types/jest': registry.npmmirror.com/@types/jest/29.2.3
   '@types/mockjs': registry.npmmirror.com/@types/mockjs/1.0.7
+  '@types/spark-md5': registry.npmmirror.com/@types/spark-md5/3.0.2
   '@umijs/lint': registry.npmmirror.com/@umijs/lint/4.0.33_d9ef7bcc57ec2a428d4c467613af168e
   antd: registry.npmmirror.com/antd/5.0.2_react-dom@17.0.2+react@17.0.2
   babel-plugin-import: registry.npmmirror.com/babel-plugin-import/1.13.5
@@ -2838,6 +2844,12 @@ packages:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/semver/-/semver-7.3.13.tgz}
     name: '@types/semver'
     version: 7.3.13
+    dev: true
+
+  registry.npmmirror.com/@types/spark-md5/3.0.2:
+    resolution: {integrity: sha512-82E/lVRaqelV9qmRzzJ1PKTpyrpnT7mwdneKNJB9hUtypZDMggloDfFUCIqRRx3lYRxteCwXSq9c+W71Vf0QnQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/spark-md5/-/spark-md5-3.0.2.tgz}
+    name: '@types/spark-md5'
+    version: 3.0.2
     dev: true
 
   registry.npmmirror.com/@types/stack-utils/2.0.1:
@@ -15111,6 +15123,12 @@ packages:
     name: space-separated-tokens
     version: 2.0.2
     dev: true
+
+  registry.npmmirror.com/spark-md5/3.0.2:
+    resolution: {integrity: sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/spark-md5/-/spark-md5-3.0.2.tgz}
+    name: spark-md5
+    version: 3.0.2
+    dev: false
 
   registry.npmmirror.com/spdx-correct/3.1.1:
     resolution: {integrity: sha512-cOYcUWwhCuHCXi49RhFRCyJEK3iPj1Ziz9DpViV3tbZOwXD49QzIN3MpOLJNxh2qwq2lJJZaKMVw9qNi4jTC0w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/spdx-correct/-/spdx-correct-3.1.1.tgz}
